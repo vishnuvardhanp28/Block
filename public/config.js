@@ -21,7 +21,7 @@ const CONFIG = {
     },
 
     // Expected network (change based on deployment)
-    EXPECTED_NETWORK: "LOCALHOST" // or "SEPOLIA" after deploying to testnet
+    EXPECTED_NETWORK: "SEPOLIA" // Changed to SEPOLIA for Vercel deployment
 };
 
 // Contract ABI will be loaded from CertificateRegistry.json
