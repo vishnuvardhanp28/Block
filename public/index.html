@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification System | Blockchain DApp</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-gradient"></div>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="logo-icon">🎓</span>
+                    CertifyChain
+                </h1>
+                <div class="header-actions">
+                    <div id="networkInfo" class="network-info"></div>
+                    <button id="connectWallet" class="btn btn-primary">
+                        <span class="btn-icon">🦊</span>
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2 class="hero-title">Blockchain-Based Certificate Verification</h2>
+                <p class="hero-subtitle">Issue, verify, and manage tamper-proof certificates on the blockchain</p>
+            </section>
+
+            <!-- Wallet Connection Notice -->
+            <div id="walletNotice" class="notice notice-warning" style="display: none;">
+                <span class="notice-icon">⚠️</span>
+                <div class="notice-content">
+                    <strong>Wallet Not Connected</strong>
+                    <p>Please connect your MetaMask wallet to use this application</p>
+                </div>
+            </div>
+
+            <!-- Account Info -->
+            <div id="accountInfo" class="account-card" style="display: none;">
+                <div class="account-header">
+                    <span class="account-label">Connected Account</span>
+                    <span id="accountBadge" class="badge"></span>
+                </div>
+                <div class="account-address" id="accountAddress"></div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="issue">
+                    <span class="tab-icon">📝</span>
+                    Issue Certificate
+                </button>
+                <button class="tab-btn" data-tab="verify">
+                    <span class="tab-icon">✓</span>
+                    Verify Certificate
+                </button>
+                <button class="tab-btn" data-tab="revoke">
+                    <span class="tab-icon">🚫</span>
+                    Revoke Certificate
+                </button>
+            </div>
+
+            <!-- Issue Certificate Panel -->
+            <div id="issuePanel" class="panel active">
+                <div class="card">
+                    <h3 class="card-title">Issue New Certificate</h3>
+                    <p class="card-subtitle">Create a tamper-proof certificate on the blockchain</p>
+                    
+                    <form id="issueForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipientAddress" class="form-label">
+                                    Recipient Wallet Address
+                                    <span class="label-hint">(Optional)</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="recipientAddress" 
+                                    class="form-input" 
+                                    placeholder="0x..."
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipientName" class="form-label">
+                                    Recipient Name
+                                    <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="recipientName" 
+                                    class="form-input" 
+                                    placeholder="John Doe"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course" class="form-label">
+                                    Course / Program
+                                    <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="course" 
+                                    class="form-input" 
+                                    placeholder="Blockchain Development Bootcamp"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row form-row-2">
+                            <div class="form-group">
+                                <label for="grade" class="form-label">
+                                    Grade / Score
+                                    <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="grade" 
+                                    class="form-input" 
+                                    placeholder="A+ / 95%"
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="ipfsCID" class="form-label">
+                                    IPFS CID
+                                    <span class="label-hint">(Optional)</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="ipfsCID" 
+                                    class="form-input" 
+                                    placeholder="QmXxx..."
+                                />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <span class="btn-icon">✨</span>
+                            Issue Certificate
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Verify Certificate Panel -->
+            <div id="verifyPanel" class="panel">
+                <div class="card">
+                    <h3 class="card-title">Verify Certificate</h3>
+                    <p class="card-subtitle">Check authenticity of a certificate on the blockchain</p>
+                    
+                    <form id="verifyForm" class="form">
+                        <div class="form-group">
+                            <label for="certIdVerify" class="form-label">
+                                Certificate ID
+                                <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="certIdVerify" 
+                                class="form-input" 
+                                placeholder="0x..."
+                                required
+                            />
+                            <span class="form-hint">Enter the unique certificate identifier (66 character hex string)</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <span class="btn-icon">🔍</span>
+                            Verify Certificate
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Revoke Certificate Panel -->
+            <div id="revokePanel" class="panel">
+                <div class="card">
+                    <h3 class="card-title">Revoke Certificate</h3>
+                    <p class="card-subtitle">Revoke a previously issued certificate</p>
+                    
+                    <div class="notice notice-warning" style="margin-bottom: 1.5rem;">
+                        <span class="notice-icon">⚠️</span>
+                        <div class="notice-content">
+                            <strong>Warning</strong>
+                            <p>This action is permanent and cannot be undone. Only revoke certificates if absolutely necessary.</p>
+                        </div>
+                    </div>
+
+                    <form id="revokeForm" class="form">
+                        <div class="form-group">
+                            <label for="certIdRevoke" class="form-label">
+                                Certificate ID
+                                <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="certIdRevoke" 
+                                class="form-input" 
+                                placeholder="0x..."
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <span class="btn-icon">🚫</span>
+                            Revoke Certificate
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div id="resultsContainer" style="display: none;">
+                <div class="card results-card">
+                    <div class="results-header">
+                        <h3 class="card-title">Certificate Details</h3>
+                        <button id="closeResults" class="btn-close">✕</button>
+                    </div>
+                    <div id="resultsContent"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingMessage">Processing transaction...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CertifyChain. Built on Ethereum.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.2/dist/ethers.umd.min.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
